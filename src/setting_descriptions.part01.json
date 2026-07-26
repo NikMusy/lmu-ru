@@ -1,0 +1,239 @@
+{
+  "PLACEHOLDER": {
+    "name": "PLACEHOLDER name",
+    "description": "Placeholder description"
+  },
+  "EMPTY_ELEMENT": " ",
+  "VIDEOOPT_VIDdriver": {
+    "name": "Монитор",
+    "description": "Выбор монитора для полноэкранного режима."
+  },
+  "VIDEOOPT_VIDwindowMode": {
+    "name": "Режим окна",
+    "description": "Режим отображения Le Mans Ultimate.",
+    "options": [
+      {
+        "name": "Оконный",
+        "description": "Отображение в окне."
+      },
+      {
+        "name": "Без рамки",
+        "description": "Отображение в окне без рамки."
+      },
+      {
+        "name": "Полноэкранный",
+        "description": "Отображение в полноэкранном режиме."
+      }
+    ]
+  },
+  "VIDEOOPT_VIDEOMODE": {
+    "name": "Разрешение",
+    "description": "Выбор разрешения, в котором работает LMU."
+  },
+  "VIDEOOPT_VIDrefresh": {
+    "name": "Частота обновления",
+    "description": "Изменение частоты обновления экрана."
+  },
+  "VIDEOOPT_VIDvsync": {
+    "name": "Вертикальная синхронизация",
+    "description": "V-Sync ограничивает FPS частотой обновления монитора, убирая разрывы изображения.",
+    "options": [
+      {
+        "name": "Выкл.",
+        "description": "Без V-Sync."
+      },
+      {
+        "name": "Программная",
+        "description": "V-Sync с программной синхронизацией."
+      },
+      {
+        "name": "Видео",
+        "description": "V-Sync под управлением DirectX"
+      }
+    ]
+  },
+  "VIDEOOPT_postprocess_level": {
+    "name": "Постэффекты",
+    "description": "Настройка постобработки — баланс между реализмом и производительностью.",
+    "options": [
+      {
+        "name": "Нет",
+        "description": "Минимальная постобработка для оптимального цветового диапазона."
+      },
+      {
+        "name": "Низкие",
+        "description": "Базовые улучшения: тональная компрессия, экспозиция, цветокоррекция."
+      },
+      {
+        "name": "Средние",
+        "description": "Добавляет лучи света и эффекты глубины резкости."
+      },
+      {
+        "name": "Высокие",
+        "description": "Улучшенная детализация средних эффектов."
+      },
+      {
+        "name": "Ультра",
+        "description": "Максимальная постобработка для предельного реализма, требует мощного ПК."
+      }
+    ]
+  },
+  "GRAPHOPT_motionblur": {
+    "name": "Размытие в движении",
+    "description": "Настройка размытия в движении для всех или отдельных камер."
+  },
+  "VIDEOOPT_VIDfsaa": {
+    "name": "FSAA",
+    "description": "Уровень полноэкранного сглаживания — баланс между плавностью картинки и нагрузкой на ПК.",
+    "options": [
+      {
+        "name": "Выкл.",
+        "description": "Сглаживание не применяется."
+      },
+      {
+        "name": "MSAA 2x/MSAA 4x/MSAA 8x",
+        "description": "Мультисэмпловое сглаживание; каждый уровень удваивает число выборок на пиксель."
+      }
+    ]
+  },
+  "VIDEOOPT_POSTFXAA": {
+    "name": "FXAA",
+    "description": "Менее точное, но и менее требовательное сглаживание."
+  },
+  "VIDEOOPT_MULTIVIEW": {
+    "name": "Multiview",
+    "description": "Включает конфигурацию с несколькими мониторами. Для работы Multiview разрешение экрана должно быть в 3,7 раза шире, чем выше."
+  },
+  "VIDEOOPT_VR_setting": {
+    "name": "Зеркало VR на мониторе",
+    "description": "Показывает изображение из VR на внешнем мониторе."
+  },
+  "GRAPHOPT_VR_hud_scale": {
+    "name": "Масштаб интерфейса",
+    "description": "Влияет на размер игрового интерфейса в VR."
+  },
+  "GRAPHOPT_VR_hud_depth": {
+    "name": "Глубина интерфейса",
+    "description": "Влияет на удалённость и кривизну игрового интерфейса в VR."
+  },
+  "GRAPHOPT_VR_menu_scale": {
+    "name": "Масштаб меню",
+    "description": "Влияет на размер меню в VR."
+  },
+  "GRAPHOPT_VR_menu_depth": {
+    "name": "Глубина меню",
+    "description": "Влияет на удалённость и кривизну меню в VR."
+  },
+  "GRAPHOPT_VR_IPD_scale": {
+    "name": "Масштаб мира",
+    "description": "Влияет на масштаб, в котором отображается мир вокруг вас. Аналог настройки угла обзора для монитора."
+  },
+  "GRAPHIC_PRESET": {
+    "name": "Пресет графики",
+    "description": "Быстрое переключение общего уровня качества графики."
+  },
+  "GRAPHOPT_track": {
+    "name": "Детализация трассы",
+    "description": "Уровень детализации на трассе."
+  },
+  "GRAPHOPT_player_detail": {
+    "name": "Детализация своей машины",
+    "description": "Уровень детализации машины игрока снаружи и внутри."
+  },
+  "GRAPHOPT_opponent_detail": {
+    "name": "Детализация соперников",
+    "description": "Уровень детализации машин соперников."
+  },
+  "GRAPHOPT_texture": {
+    "name": "Детализация текстур",
+    "description": "Настройка качества отрисовки текстур."
+  },
+  "GRAPHOPT_TextureFilter": {
+    "name": "Фильтрация текстур",
+    "description": "Настройка уровня фильтрации текстур."
+  },
+  "GRAPHOPT_texture_streaming": {
+    "name": "Потоковая загрузка текстур",
+    "description": "Включает или отключает потоковую загрузку текстур."
+  },
+  "GRAPHOPT_specialfx": {
+    "name": "Спецэффекты",
+    "description": "Количество спецэффектов: дым, водяная взвесь и т. п."
+  },
+  "GRAPHOPT_shadows": {
+    "name": "Тени",
+    "description": "Качество отрисовки теней."
+  },
+  "GRAPHOPT_shadow_blur": {
+    "name": "Размытие теней",
+    "description": "Настройка мягкости краёв теней."
+  },
+  "GRAPHOPT_soft_particles": {
+    "name": "Мягкие частицы",
+    "description": "Определяет взаимодействие мягких элементов."
+  },
+  "GRAPHOPT_vehicle_occlusion_culling": {
+    "name": "Отсечение перекрытых машин",
+    "description": "Отключает отрисовку машин, полностью перекрытых другими объектами."
+  },
+  "GRAPHOPT_rain_drops": {
+    "name": "Капли дождя",
+    "description": "Реалистичность и детализация отрисовки дождя."
+  },
+  "GRAPHOPT_road_reflections": {
+    "name": "Отражения на дороге",
+    "description": "Детализация отражений на мокром покрытии."
+  },
+  "GRAPHOPT_env_reflections": {
+    "name": "Отражения окружения",
+    "description": "Детализация отражений на поверхностях."
+  },
+  "GRAPHOPT_stabilize_horizon": {
+    "name": "Фиксация горизонта",
+    "description": "Стабилизация горизонта помогает бороться с укачиванием, особенно в VR."
+  },
+  "GRAPHOPT_visible_vehicles": {
+    "name": "Видимые машины",
+    "description": "Количество машин, отрисовываемых на трассе. Не влияет на число машин, видимых с трассовых камер в повторах и трансляциях."
+  },
+  "GRAPHOPT_extra_visible_vehicles": {
+    "name": "Видимые машины в трансляции",
+    "description": "Количество машин, отрисовываемых в режиме трансляции — как в прямом эфире, так и в повторах."
+  },
+  "GRAPHOPT_live_tv_displays": {
+    "name": "ТВ-экраны на трассе",
+    "description": "Включает или отключает работающие ТВ-экраны на трассах."
+  },
+  "GAMEOPT_kph": {
+    "name": "Км/ч или мили/ч",
+    "description": "Переключение единиц скорости между км/ч и милями/ч."
+  },
+  "GAMEOPT_kw": {
+    "name": "Единицы заряда",
+    "description": "Отображение заряда батареи в % или в кВт/кВт·ч."
+  },
+  "GAMEOPT_units": {
+    "name": "Единицы измерения",
+    "description": "Выбор между метрической и имперской системой."
+  },
+  "GRAPHOPT_driver_overlay_hud": {
+    "name": "Интерфейс включён",
+    "description": "Включает или отключает игровой интерфейс."
+  },
+  "GRAPHOPT_driver_overlay_info_car": {
+    "name": "Спидометр",
+    "description": "Включает или отключает спидометр в интерфейсе."
+  },
+  "GRAPHOPT_driver_overlay_standings": {
+    "name": "Таблица позиций",
+    "description": "Включает или отключает таблицу позиций в интерфейсе."
+  },
+  "GRAPHOPT_driver_overlay_info_timing": {
+    "name": "Секторные времена",
+    "description": "Включает или отключает секторные времена в интерфейсе."
+  },
+  "GRAPHOPT_driver_overlay_notifications_chat": {
+    "name": "Чат",
+    "description": "Включает или отключает чат в интерфейсе."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "_comment": "Оверрайд для варианта, который кладётся в locales/en. У английской локали ICU знает только формы one/other, поэтому здесь множественное число подобрано так, чтобы читалось нормально при любом числе. В locales/pl лежит вариант с полными формами one/few/many.",
+  "{ days, plural, one {# day} other {# days} }": "{ days, plural, one {# день} other {# дн.} }",
+  "{ hours, plural, one {# hour} other {# hours} }": "{ hours, plural, one {# час} other {# ч} }",
+  "{ minutes, plural, one {# minute} other {# minutes} }": "{ minutes, plural, one {# минута} other {# мин} }",
+  "{ seconds, plural, one {# second} other {# seconds} }": "{ seconds, plural, one {# секунда} other {# с} }",
+  "{ numDrivers, plural, one {# driver} other {# drivers} }": "{ numDrivers, plural, one {# пилот} other {# пилота} }",
+  "{ numEngineers, plural, one {# engineer} other {# engineers} }": "{ numEngineers, plural, one {# инженер} other {# инженера} }",
+  "{ numManagers, plural, one {# manager} other {# managers} }": "{ numManagers, plural, one {# менеджер} other {# менеджера} }",
+  "{ numInvites, plural, one {# invite} other {# invites} }": "{ numInvites, plural, one {# приглашение} other {# приглашений} }",
+  "{ numLiveries, plural, one {# livery} other {# liveries} }": "{ numLiveries, plural, one {# ливрея} other {# ливрей} }",
+  "+{ gapLaps, plural, one {# Lap} other {# Laps} }": "+{ gapLaps, plural, one {# круг} other {# кр.} }"
+}

@@ -1,0 +1,90 @@
+{
+  "2024Pack1": {
+    "header": {
+      "short": "2 гиперкара + 1 новая трасса (Имола)",
+      "title": "Tifosi Italia",
+      "long": "Сезон 2024 — набор 1"
+    },
+    "content": {
+      "description": "Набор 1 сезона 2024 уже вышел: живописная Имола, эффектный Lamborghini SC63 и Peugeot 9X8 в эволюции 2024 года."
+    }
+  },
+  "2024Pack2": {
+    "header": {
+      "short": "2 гиперкара + 1 новая трасса (COTA)",
+      "title": "Красный, белый и синий",
+      "long": "Сезон 2024 — набор 2"
+    },
+    "content": {
+      "description": "Дух Ле-Мана добирается до Штатов: Circuit of the Americas (COTA), французский шик Alpine и независимый характер Isotta Fraschini."
+    }
+  },
+  "2024SeasonPack4": {
+    "header": {
+      "short": "Новые машины LMGT3!",
+      "title": "Porsche против Aston",
+      "long": "Сезон 2024 — набор 4"
+    },
+    "content": {
+      "description": "Набор 4 сезона 2024&nbsp;уже здесь — два новых претендента в LMGT3 от легендарных марок Ле-Мана, Porsche и Aston Martin. Уже доступно!"
+    }
+  },
+  "freeLMGT3": {
+    "header": {
+      "title": "Бесплатные LMGT3",
+      "long": "McLaren 720S LMGT3 Evo <br>и Ford Mustang LMGT3"
+    },
+    "content": {
+      "description": "Пополните ряды LMGT3 — скачайте две БЕСПЛАТНЫЕ машины прямо сейчас!"
+    }
+  },
+  "2024Pack5": {
+    "header": {
+      "short": "2 новые машины LMGT3 + Лусаил!",
+      "title": "Атмосферные моторы",
+      "long": "Сезон 2024 — набор 5"
+    },
+    "content": {
+      "description": "Набор 5 сезона 2024 уже здесь, а с ним последние 2 машины LMGT3 и 1 трасса, завершающие сезон 2024! Уже доступно!"
+    }
+  },
+  "ELMSPack1": {
+    "header": {
+      "short": "Класс LMP3 + Сильверстоун",
+      "title": "ELMS уже здесь!",
+      "long": "Набор ELMS №1"
+    },
+    "content": {
+      "description": "European Le Mans Series уже здесь вместе с совершенно новым классом LMP3 и культовой трассой Silverstone International!"
+    }
+  },
+  "ELMSSeasonPass": {
+    "header": {
+      "title": "Купите сейчас и сэкономьте!",
+      "long": "Сезонный пропуск ELMS"
+    },
+    "content": {
+      "description": "Ваш ключ к контенту ELMS сразу после выхода! 3 совершенно новые машины и 3 великолепные трассы!"
+    }
+  },
+  "ELMSPack2": {
+    "header": {
+      "short": "Ginetta LMP3 + Поль Рикар!",
+      "title": "Набор ELMS 2 уже вышел!",
+      "long": "Набор ELMS №2"
+    },
+    "content": {
+      "description": "<b>Французская классика</b> и <b>британский аутсайдер</b>! Европейское приключение продолжается: ещё одно новое <b>шасси LMP3</b> и сложная, требовательная трасса, которую предстоит покорить!"
+    }
+  },
+  "ELMSPack3": {
+    "header": {
+      "short": "Duqueine LMP3 и Барселона",
+      "title": "Набор ELMS 3 уже вышел!",
+      "long": "Набор ELMS №3"
+    },
+    "content": {
+      "description": "Освойте новейший претендент LMP3 и пройдите размашистые повороты Circuit de Barcelona-Catalunya!"
+    }
+  }
+}
