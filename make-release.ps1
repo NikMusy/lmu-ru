@@ -21,6 +21,13 @@ foreach ($f in @("install.ps1", "uninstall.ps1", "install-hud.ps1", "uninstall-h
   Copy-Item (Join-Path $ROOT $f) $STAGE -Force
 }
 
+# сжатие шрифта заголовков и перевод зашитых в код надписей — им нужен Node.js;
+# без него установка тоже пройдёт, но заголовки останутся широкими
+New-Item -ItemType Directory -Force -Path "$STAGE\tools", "$STAGE\build\js" | Out-Null
+Copy-Item (Join-Path $ROOT "tools\condense.js") "$STAGE\tools" -Force
+Copy-Item (Join-Path $ROOT "patch-js.js") $STAGE -Force
+Copy-Item (Join-Path $ROOT "src\hardcoded-ru.json") "$STAGE\src" -Force
+
 # готовые тексты — установщику нужны именно они
 foreach ($f in @("translation.json", "translation.en.json", "setting_descriptions.json",
                  "banners.json", "dlc-widget.json", "russian.dic")) {

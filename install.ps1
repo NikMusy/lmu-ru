@@ -14,6 +14,9 @@ param(
   # seguisb = обычный Segoe UI SemiBold, impact = очень узкий и жирный.
   [ValidateSet("bahnschrift", "seguisb", "impact")]
   [string]$HeadingFont = "bahnschrift",
+  # Во сколько раз сжать шрифт заголовков по горизонтали. 0.70 приводит ширину
+  # Bahnschrift к ширине оригинального Antonio (0.459 против 0.445 em).
+  [double]$HeadingScale = 0.70,
   [switch]$BuildOnly,
   [switch]$DeployOnly
 )
@@ -48,6 +51,27 @@ if (-not $DeployOnly) {
   }
   foreach ($src in $fontMap.Values) {
     if (-not (Test-Path "C:\Windows\Fonts\$src")) { Fail "в системе нет шрифта C:\Windows\Fonts\$src" }
+  }
+
+  # Шрифт заголовков сжимаем по горизонтали до ширины оригинального Antonio,
+  # иначе заголовки и имена не помещаются в отведённые места. Результат кладём
+  # в build\fonts и берём оттуда — сам файл шрифта остаётся на машине пользователя.
+  $condensed = Join-Path $ROOT "build\fonts\Antonio-RU.ttf"
+  $condenser = Join-Path $ROOT "tools\condense.js"
+  if (Test-Path $condenser) {
+    $node = Get-Command node -ErrorAction SilentlyContinue
+    if ($node) {
+      New-Item -ItemType Directory -Force -Path (Split-Path $condensed) | Out-Null
+      & node $condenser "C:\Windows\Fonts\$($fontMap['Antonio-SemiBold-MSG.ttf'])" $condensed $HeadingScale | Out-Null
+      if ($LASTEXITCODE -eq 0 -and (Test-Path $condensed)) {
+        Ok "шрифт заголовков сжат по X в $HeadingScale (ширина как у оригинального Antonio)"
+      } else { Info "! сжать шрифт не удалось — ставится обычный, заголовки будут шире" }
+    } else {
+      Write-Host "  ! Node.js не найден." -ForegroundColor Yellow
+      Write-Host "    Русификатор поставится, но шрифт заголовков останется широким," -ForegroundColor Yellow
+      Write-Host "    и длинные названия местами будут обрезаться." -ForegroundColor Yellow
+      Write-Host "    Чтобы этого не было, поставьте Node.js (nodejs.org) и запустите установку заново." -ForegroundColor Yellow
+    }
   }
 
   # Бэкап оригинала. Копировать можно и при запущенной игре — файл открыт только на чтение.
@@ -110,9 +134,15 @@ if (-not $DeployOnly) {
 
     # 2. Шрифты — в оригинальных нет кириллицы, подменяем системными
     foreach ($target in $fontMap.Keys) {
-      $bytes = [System.IO.File]::ReadAllBytes("C:\Windows\Fonts\$($fontMap[$target])")
+      # для заголовков берём сжатую версию, если она собралась
+      if ($target -eq "Antonio-SemiBold-MSG.ttf" -and (Test-Path $condensed)) {
+        $bytes = [System.IO.File]::ReadAllBytes($condensed)
+        Info "$target  <-  $($fontMap[$target]) (сжат в $HeadingScale)"
+      } else {
+        $bytes = [System.IO.File]::ReadAllBytes("C:\Windows\Fonts\$($fontMap[$target])")
+        Info "$target  <-  $($fontMap[$target])"
+      }
       Write-Entry "start/fonts/$target" $bytes | Out-Null
-      Info "$target  <-  $($fontMap[$target])"
     }
     Ok "шрифты заменены: $($fontMap.Count)"
 
@@ -139,6 +169,39 @@ if (-not $DeployOnly) {
     Append-Css 'start/assets/app-.*\.css$'   'src\ui-fixes.css'    'css интерфейса'
     Append-Css 'start/assets/fonts-.*\.css$' 'src\fonts-fixes.css' 'css шрифтов'
     Ok "правки вёрстки применены"
+
+    # 4. Часть надписей выводится в бандле литералом, мимо системы перевода
+    #    (children: "Race History"). Через локаль их не достать — правим бандл.
+    $patchedJs = Join-Path $ROOT "build\js\app.js"
+    $patcher   = Join-Path $ROOT "patch-js.js"
+
+    # если готового пропатченного бандла нет — достаём оригинал из архива и правим
+    if (-not (Test-Path $patchedJs) -and (Test-Path $patcher) -and (Get-Command node -ErrorAction SilentlyContinue)) {
+      $jsEntry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match 'start/assets/app-.*\.js$' } | Select-Object -First 1
+      if ($jsEntry) {
+        New-Item -ItemType Directory -Force -Path (Split-Path $patchedJs) | Out-Null
+        $rawJs = Join-Path $ROOT "build\js\app-original.js"
+        $sr = New-Object System.IO.StreamReader($jsEntry.Open(), (New-Object System.Text.UTF8Encoding($false)))
+        [System.IO.File]::WriteAllText($rawJs, $sr.ReadToEnd(), (New-Object System.Text.UTF8Encoding($false)))
+        $sr.Dispose()
+        & node $patcher $rawJs $patchedJs | Out-Null
+        Remove-Item $rawJs -Force -ErrorAction SilentlyContinue
+      }
+    }
+
+    if (Test-Path $patchedJs) {
+      $entry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match 'start/assets/app-.*\.js$' } | Select-Object -First 1
+      if ($null -eq $entry) {
+        Info "! бандл интерфейса не найден — перевод зашитых строк пропущен"
+      } else {
+        $bytes = [System.IO.File]::ReadAllBytes($patchedJs)
+        $s = $entry.Open()
+        try { $s.SetLength(0); $s.Write($bytes, 0, $bytes.Length) } finally { $s.Dispose() }
+        Ok "зашитые в код надписи переведены ($($entry.FullName.Split('\')[-1]))"
+      }
+    } else {
+      Info "! нет build\js\app.js — зашитые в код надписи останутся английскими"
+    }
   }
   finally { $zip.Dispose() }
 

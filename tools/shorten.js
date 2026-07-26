@@ -34,6 +34,21 @@ const FIX = {
   'Driver Swaps': 'Пересадки',
   'Fuel Multiplier': 'Расход топлива',
 
+  // обратный отсчёт: «СТАРТЫ 17 М 30 С» читалось коряво — ключ один и тот же
+  // и для счётчика стартов, и для времени до старта, поэтому нужна форма,
+  // приемлемая в обоих случаях
+  'Starts': 'Старт',
+  'STARTS ': 'СТАРТ ',
+  'Starts in': 'Старт через',
+  '{minutes}m {seconds}s': '{minutes} мин {seconds} с',
+  '{hours}h {minutes}m': '{hours} ч {minutes} мин',
+  '{hours}H {minutes}M': '{hours} Ч {minutes} МИН',
+  '{hours}h {minutes}m {seconds}s': '{hours} ч {minutes} мин {seconds} с',
+  '{minutes}m': '{minutes} мин',
+  '{minutesRoundedLeft}M Remaining': 'Осталось {minutesRoundedLeft} мин',
+  '{hoursLeft}H {minutesRoundedLeft}M Remaining': 'Осталось {hoursLeft} ч {minutesRoundedLeft} мин',
+  'Time remaining {hours}h {minutes}m': 'Осталось {hours} ч {minutes} мин',
+
   // кнопки
   'Join Practice': 'В практику',
   'JOIN PRACTICE': 'В ПРАКТИКУ',
