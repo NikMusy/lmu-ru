@@ -14,9 +14,12 @@ param(
   # seguisb = обычный Segoe UI SemiBold, impact = очень узкий и жирный.
   [ValidateSet("bahnschrift", "seguisb", "impact")]
   [string]$HeadingFont = "bahnschrift",
-  # Во сколько раз сжать шрифт заголовков по горизонтали. 0.70 приводит ширину
-  # Bahnschrift к ширине оригинального Antonio (0.459 против 0.445 em).
+  # Во сколько раз сжать шрифт заголовков по горизонтали. Нужно только для
+  # системных шрифтов: они широкие, и без сжатия заголовки не помещаются.
+  # Для Oswald сжатие не требуется — он узкий по своему рисунку.
   [double]$HeadingScale = 0.70,
+  # Не использовать Oswald, даже если он есть — взять системный шрифт и сжать его
+  [switch]$SystemHeadingFont,
   [switch]$BuildOnly,
   [switch]$DeployOnly
 )
@@ -53,18 +56,32 @@ if (-not $DeployOnly) {
     if (-not (Test-Path "C:\Windows\Fonts\$src")) { Fail "в системе нет шрифта C:\Windows\Fonts\$src" }
   }
 
-  # Шрифт заголовков сжимаем по горизонтали до ширины оригинального Antonio,
-  # иначе заголовки и имена не помещаются в отведённые места. Результат кладём
-  # в build\fonts и берём оттуда — сам файл шрифта остаётся на машине пользователя.
+  # Шрифт заголовков. Оригинальный Antonio очень узкий (0.445 em), и системные
+  # шрифты с кириллицей заметно шире — заголовки перестают помещаться.
+  #
+  # Лучший вариант — Oswald: он узкий по своему рисунку, а не сжат механически,
+  # поэтому выглядит аккуратно. Лежит в src\fonts, лицензия OFL разрешает
+  # распространять его вместе с русификатором.
+  #
+  # Если Oswald недоступен, берём системный шрифт и сжимаем его по горизонтали.
+  $oswald = Join-Path $ROOT "src\fonts\Oswald-SemiBold.ttf"
+  $headingFile = $null
+
+  if ((Test-Path $oswald) -and -not $SystemHeadingFont) {
+    $headingFile = $oswald
+    Ok "шрифт заголовков: Oswald SemiBold (0.571 em, узкий по рисунку)"
+  }
+
   $condensed = Join-Path $ROOT "build\fonts\Antonio-RU.ttf"
   $condenser = Join-Path $ROOT "tools\condense.js"
-  if (Test-Path $condenser) {
+  if ($null -eq $headingFile -and (Test-Path $condenser)) {
     $node = Get-Command node -ErrorAction SilentlyContinue
     if ($node) {
       New-Item -ItemType Directory -Force -Path (Split-Path $condensed) | Out-Null
       & node $condenser "C:\Windows\Fonts\$($fontMap['Antonio-SemiBold-MSG.ttf'])" $condensed $HeadingScale | Out-Null
       if ($LASTEXITCODE -eq 0 -and (Test-Path $condensed)) {
-        Ok "шрифт заголовков сжат по X в $HeadingScale (ширина как у оригинального Antonio)"
+        $headingFile = $condensed
+        Ok "шрифт заголовков: $HeadingFont, сжат по X в $HeadingScale"
       } else { Info "! сжать шрифт не удалось — ставится обычный, заголовки будут шире" }
     } else {
       Write-Host "  ! Node.js не найден." -ForegroundColor Yellow
@@ -134,10 +151,9 @@ if (-not $DeployOnly) {
 
     # 2. Шрифты — в оригинальных нет кириллицы, подменяем системными
     foreach ($target in $fontMap.Keys) {
-      # для заголовков берём сжатую версию, если она собралась
-      if ($target -eq "Antonio-SemiBold-MSG.ttf" -and (Test-Path $condensed)) {
-        $bytes = [System.IO.File]::ReadAllBytes($condensed)
-        Info "$target  <-  $($fontMap[$target]) (сжат в $HeadingScale)"
+      if ($target -eq "Antonio-SemiBold-MSG.ttf" -and $headingFile) {
+        $bytes = [System.IO.File]::ReadAllBytes($headingFile)
+        Info "$target  <-  $(Split-Path $headingFile -Leaf)"
       } else {
         $bytes = [System.IO.File]::ReadAllBytes("C:\Windows\Fonts\$($fontMap[$target])")
         Info "$target  <-  $($fontMap[$target])"

@@ -1,4 +1,4 @@
-# Собирает готовый к раздаче архив: скрипты + уже собранные тексты.
+﻿# Собирает готовый к раздаче архив: скрипты + уже собранные тексты.
 # Node.js конечному пользователю не нужен — только Windows PowerShell.
 # Шрифты в архив не кладутся: системные берутся из Windows пользователя,
 # растровые шрифты движка генерируются утилитой из самой игры.
@@ -21,9 +21,14 @@ foreach ($f in @("install.ps1", "uninstall.ps1", "install-hud.ps1", "uninstall-h
   Copy-Item (Join-Path $ROOT $f) $STAGE -Force
 }
 
-# сжатие шрифта заголовков и перевод зашитых в код надписей — им нужен Node.js;
-# без него установка тоже пройдёт, но заголовки останутся широкими
-New-Item -ItemType Directory -Force -Path "$STAGE\tools", "$STAGE\build\js" | Out-Null
+# Шрифт заголовков идёт в комплекте: Oswald под лицензией OFL распространять можно,
+# и он узкий по своему рисунку, поэтому ни сжатия, ни Node.js для него не нужно.
+New-Item -ItemType Directory -Force -Path "$STAGE\tools", "$STAGE\src\fonts" | Out-Null
+Copy-Item (Join-Path $ROOT "src\fonts\Oswald-SemiBold.ttf") "$STAGE\src\fonts" -Force
+Copy-Item (Join-Path $ROOT "src\fonts\Oswald-OFL.txt")      "$STAGE\src\fonts" -Force
+
+# запасной путь (сжатие системного шрифта) и перевод зашитых в код надписей —
+# им нужен Node.js, без него установка просто пропустит эти шаги
 Copy-Item (Join-Path $ROOT "tools\condense.js") "$STAGE\tools" -Force
 Copy-Item (Join-Path $ROOT "patch-js.js") $STAGE -Force
 Copy-Item (Join-Path $ROOT "src\hardcoded-ru.json") "$STAGE\src" -Force
@@ -77,9 +82,12 @@ Copy-Item (Join-Path $ROOT "src\fonts-fixes.css") "$STAGE\src" -Force
   перед первым онлайн-заездом стоит проверить работу в офлайне.
 
 ШРИФТЫ
-  В шрифтах игры нет кириллицы, поэтому их приходится подменять. Системные
-  берутся из вашей папки C:\Windows\Fonts, шрифты движка генерируются штатной
-  утилитой MakeSpriteFont.exe из самой игры. В архиве шрифтов нет.
+  В шрифтах игры нет кириллицы, поэтому их приходится подменять.
+  Шрифт заголовков (Oswald) лежит в архиве — у него открытая лицензия OFL,
+  и он узкий по своему рисунку, как и оригинальный шрифт игры.
+  Шрифты основного текста берутся из вашей папки C:\Windows\Fonts.
+  Растровые шрифты движка генерируются штатной утилитой MakeSpriteFont.exe
+  из самой игры.
 
 Исходники и подробности: https://github.com/NikMusy/lmu-ru
 "@ | Set-Content "$STAGE\ПРОЧТИ МЕНЯ.txt" -Encoding UTF8
