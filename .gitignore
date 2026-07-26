@@ -10,6 +10,9 @@ backup/
 *.otf
 *.spritefont
 
+# Oswald под лицензией OFL распространять можно — он идёт в комплекте
+!src/fonts/*.ttf
+
 node_modules/
 *.log
 
