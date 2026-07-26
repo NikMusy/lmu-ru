@@ -115,6 +115,30 @@ if (-not $DeployOnly) {
       Info "$target  <-  $($fontMap[$target])"
     }
     Ok "шрифты заменены: $($fontMap.Count)"
+
+    # 3. Правки вёрстки. Русский текст длиннее английского, а замена узкого Antonio
+    #    ещё шире — без этого заголовки и вкладки наезжают друг на друга.
+    #    Имена css собраны с хешами и меняются между версиями игры, поэтому ищем по маске.
+    function Append-Css([string]$pattern, [string]$patchFile, [string]$what) {
+      $entry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match $pattern } | Select-Object -First 1
+      if ($null -eq $entry) { Info "! не найден $what ($pattern) — правка вёрстки пропущена"; return }
+
+      $sr = New-Object System.IO.StreamReader($entry.Open(), (New-Object System.Text.UTF8Encoding($false)))
+      $css = $sr.ReadToEnd(); $sr.Dispose()
+
+      $marker = 'Русская локализация'
+      if ($css.Contains($marker)) { Info "$what уже пропатчен"; return }
+
+      $patch = [System.IO.File]::ReadAllText((Join-Path $ROOT $patchFile), [System.Text.Encoding]::UTF8)
+      $bytes = (New-Object System.Text.UTF8Encoding($false)).GetBytes($css + "`n`n" + $patch)
+      $s = $entry.Open()
+      try { $s.SetLength(0); $s.Write($bytes, 0, $bytes.Length) } finally { $s.Dispose() }
+      Info "$what пропатчен ($($entry.FullName.Split('\')[-1]))"
+    }
+
+    Append-Css 'start/assets/app-.*\.css$'   'src\ui-fixes.css'    'css интерфейса'
+    Append-Css 'start/assets/fonts-.*\.css$' 'src\fonts-fixes.css' 'css шрифтов'
+    Ok "правки вёрстки применены"
   }
   finally { $zip.Dispose() }
 

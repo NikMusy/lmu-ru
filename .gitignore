@@ -12,3 +12,6 @@ backup/
 
 node_modules/
 *.log
+
+# Готовые архивы релизов — выкладываются в GitHub Releases
+dist/
