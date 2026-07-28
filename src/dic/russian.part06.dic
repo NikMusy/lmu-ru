@@ -1,0 +1,56 @@
+// Строки, появившиеся в Le Mans Ultimate 1.4:
+// подсказки на прогревочном круге, штрафы, статусы пилота и машины.
+
+// ---- прогревочный круг ----
+"Catch Up" = "Догоняй"
+"Hold Speed" = "Держи скорость"
+"Slow Down" = "Сбавь скорость"
+"Speed Up" = "Прибавь"
+"Stay" = "Держись"
+"Line up on" = "Стройся на"
+"Line up on " = "Стройся на "
+"Out of Line" = "Вне строя"
+"Out of position" = "Не на своём месте"
+"Pass slow car ahead" = "Обгони медленную машину впереди"
+"Formation Lap Leader" = "Лидер прогревочного круга"
+"Failed to drive formation lap" = "Прогревочный круг не пройден"
+"Ignoring formation lap rules" = "Нарушение правил прогревочного круга"
+"Erratic driving" = "Беспорядочное вождение"
+
+// ---- штрафы и нарушения ----
+"Penalty Applied" = "Штраф назначен"
+"Penalty in" = "Штраф через"
+"Speeding" = "Превышение скорости"
+"Pitlane Misbehaviour" = "Нарушение на пит-лейн"
+"Stay in fast lane" = "Держись в быстром ряду"
+"Look out for approaching cars before driving into the fast lane." = "Перед выездом в быстрый ряд посмотри, нет ли приближающихся машин."
+
+// ---- статусы пилота и машины ----
+"Ready To Drive" = "Готов ехать"
+"Preparing Car" = "Подготовка машины"
+"Exiting car in" = "Выход из машины через"
+"Control in" = "Управление через"
+"Driver Change" = "Смена пилота"
+"Session Starting Soon" = "Сессия скоро начнётся"
+"PLEASE WAIT" = "ПОДОЖДИТЕ"
+
+// ---- телеметрия и топливо ----
+"Telemetry recording started" = "Запись телеметрии начата"
+"Telemetry recording stopped" = "Запись телеметрии остановлена"
+"Fuel usage marginal" = "Топлива впритык"
+
+// ---- реплики споттера с подстановкой позиции ----
+"POS that's a good result. Good work." = "POS — хороший результат. Отличная работа."
+"POS that’s a good result. Good work." = "POS — хороший результат. Отличная работа."
+"POS! You can be happy with that result!" = "POS! Таким результатом можно быть довольным!"
+"POS. That's the end of the race." = "POS. Гонка окончена."
+"POS. That’s the end of the race." = "POS. Гонка окончена."
+
+// ---- прочее ----
+"Initialising dedicated server..." = "Запуск выделенного сервера…"
+"Incorrect DirectX version detected.  DirectX 9.0c or higher required." = "Обнаружена неподходящая версия DirectX. Требуется DirectX 9.0c или новее."
+"Insufficient system memory detected.  A minimum of 512 MB required" = "Недостаточно оперативной памяти. Требуется минимум 512 МБ"
+"Insufficient disk swap space or virtual memory detected.  A minimum of 300 MB of swap space required." = "Недостаточно места под файл подкачки. Требуется минимум 300 МБ."
+"Left" = "Влево"
+"Right" = "Вправо"
+"P2 - Rain" = "P2 — дождь"
