@@ -1,5 +1,5 @@
 {
-  "_comment": "Строки, которые в бандле интерфейса выводятся напрямую, мимо системы перевода (children: \"...\"). Через файл локали их не достать — patch-js.js заменяет литералы прямо в app-*.js. Ключ должен точно совпадать с тем, что в бандле.",
+  "_comment": "Строки, которые в бандле интерфейса выводятся напрямую, мимо системы перевода (children: \"...\"). Через файл локали их не достать — patch-js.js заменяет литералы прямо в app-*.js. Ключ должен точно совпадать с тем, что в бандле. Текст регламента соревнований вынесен отдельно, в rules-ru.json.",
 
   "In Short:": "Коротко:",
   "Race History": "История гонок",
@@ -18,13 +18,19 @@
   "Missing co-op driver info": "Нет данных о пилоте ко-опа",
   "No entry found for team user": "Заявка для этого участника не найдена",
   "Failed to load team users data: Unknown reason": "Не удалось загрузить участников команды: причина неизвестна",
-  "Participant:": "Участник:",
-  "Organiser:": "Организатор:",
-  "Competition:": "Соревнование:",
-  "The chequered flag indicates the end of a race.": "Клетчатый флаг означает окончание гонки.",
-  "Competitors are not allowed to deliberately bump draft any competitor.": "Запрещено намеренно толкать соперника в слипстриме.",
-  "Penalties received via reports review may affect Participant Safety Rating.": "Штрафы по итогам разбора жалоб могут повлиять на рейтинг безопасности участника.",
-  "Unsafe rejoin that causes multiple collisions.": "Опасное возвращение на трассу, приведшее к нескольким столкновениям.",
-  "Griefing or directing insults in chat.": "Намеренные помехи или оскорбления в чате.",
-  "Please visit RaceControl.gg for specific Hosted Server terms of use": "Условия использования пользовательских серверов — на RaceControl.gg"
+
+  "Total Points": "Всего очков",
+  "Clear History": "Очистить историю",
+  "Join History": "История подключений",
+  "No drivers found": "Пилоты не найдены",
+  "No team owner found": "Владелец команды не найден",
+  "Error loading event": "Не удалось загрузить событие",
+  "Server Details": "О сервере",
+  "Choose a Co-Op Event": "Выберите событие ко-опа",
+  "Quick event": "Быстрое событие",
+  "Notifications:": "Уведомления:",
+  "Community Thanks": "Благодарности сообществу",
+  "Special Thanks": "Особая благодарность",
+  "Dev tools": "Инструменты разработчика",
+  "Use Joker!": "Использовать джокер!"
 }

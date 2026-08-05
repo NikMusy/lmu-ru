@@ -54,3 +54,13 @@
 "Left" = "Влево"
 "Right" = "Вправо"
 "P2 - Rain" = "P2 — дождь"
+
+// ---- сообщения гонки и системные, оставшиеся непереведёнными ----
+// VEHCLASS движок подставляет сам — название класса машины, трогать нельзя.
+"You are the VEHCLASS WINNER!" = "Ты победитель в классе VEHCLASS!"
+"You are stopped on track. Please continue driving or retire the car immediately" = "Ты стоишь на трассе. Продолжай движение или немедленно сойди с гонки"
+"You are stopped on track. Please continue driving or retire the car immediately." = "Ты стоишь на трассе. Продолжай движение или немедленно сойди с гонки."
+"Wait at Pit Exit" = "Жди на выезде с пит-лейн"
+"You must drive through the pit lane" = "Нужно проехать через пит-лейн"
+"Control + Left Arrow:" = "Ctrl + стрелка влево:"
+"Insufficient video memory detected - 512 MB minimum required.\n\rContinue anyway?" = "Недостаточно видеопамяти. Требуется минимум 512 МБ.\n\rВсё равно продолжить?"
