@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
+const ROOT = require('../lib/paths').ROOT;
 
 const keys = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'dic-keys.json'), 'utf8'));
 const ru = fs.readFileSync(path.join(ROOT, 'build', 'russian.dic'), 'utf8');

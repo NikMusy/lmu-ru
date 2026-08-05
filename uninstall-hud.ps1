@@ -1,12 +1,15 @@
-# Русификатор Le Mans Ultimate — откат слоя движка (HUD, MFD, словарь)
+﻿# Русификатор Le Mans Ultimate — откат слоя движка (HUD, MFD, словарь)
 
 [CmdletBinding()]
 param(
-  [string]$GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Le Mans Ultimate"
+  # Пусто — путь ищется сам: LMU_PATH, библиотеки Steam, обычные места
+  [string]$GamePath = ""
 )
 
 $ErrorActionPreference = "Stop"
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $ROOT "lib\game-path.ps1")
+$GamePath = Find-LmuPath $GamePath
 $LANGDIR = Join-Path $GamePath "Support\Languages"
 $SFDIR   = Join-Path $GamePath "Core\Shared\SpriteFonts"
 $BK      = Join-Path $ROOT "backup"

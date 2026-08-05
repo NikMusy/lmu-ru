@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
+const ROOT = require('./lib/paths').ROOT;
 const SRC = path.join(ROOT, 'src', 'dic');
 
 function parseDic(text, file) {

@@ -1,4 +1,4 @@
-# Русификатор Le Mans Ultimate
+﻿# Русификатор Le Mans Ultimate
 # Правит только Bin\UI.zip: подменяет файлы перевода и четыре шрифта.
 # Исполняемые файлы, DLL и любые данные, которые проверяет античит, не трогаются.
 #
@@ -9,7 +9,8 @@
 
 [CmdletBinding()]
 param(
-  [string]$GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Le Mans Ultimate",
+  # Пусто — путь ищется сам: LMU_PATH, библиотеки Steam, обычные места
+  [string]$GamePath = "",
   # Шрифт заголовков. bahnschrift = узкий технический (ближе всего к оригинальному Antonio),
   # seguisb = обычный Segoe UI SemiBold, impact = очень узкий и жирный.
   [ValidateSet("bahnschrift", "seguisb", "impact")]
@@ -26,6 +27,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ROOT   = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $ROOT "lib\game-path.ps1")
+$GamePath = Find-LmuPath $GamePath
 $UIZIP  = Join-Path $GamePath "Bin\UI.zip"
 $BACKUP = Join-Path $ROOT "backup\UI.zip.original"
 $OUT    = Join-Path $ROOT "build\UI.zip"
@@ -37,6 +40,7 @@ function GameRunning { [bool](Get-Process -Name "Le Mans Ultimate" -ErrorAction 
 
 Write-Host "`n=== Русификатор Le Mans Ultimate ===`n" -ForegroundColor Cyan
 if (-not (Test-Path $UIZIP)) { Fail "не найден $UIZIP`n  Укажите путь: .\install.ps1 -GamePath 'D:\...\Le Mans Ultimate'" }
+Info "игра: $GamePath"
 
 # ============================ СБОРКА ============================
 if (-not $DeployOnly) {
@@ -187,36 +191,39 @@ if (-not $DeployOnly) {
     Ok "правки вёрстки применены"
 
     # 4. Часть надписей выводится в бандле литералом, мимо системы перевода
-    #    (children: "Race History"). Через локаль их не достать — правим бандл.
-    $patchedJs = Join-Path $ROOT "build\js\app.js"
-    $patcher   = Join-Path $ROOT "patch-js.js"
+    #    (children: "Race History"), и там же лежит текст регламента соревнований.
+    #    Через локаль их не достать — правим бандл.
+    #
+    #    Патчим всегда заново, из бандла текущей версии игры: после обновления LMU
+    #    имя и содержимое app-*.js меняются, и сохранённая с прошлого раза копия
+    #    сломала бы интерфейс.
+    $patcher = Join-Path $ROOT "patch-js.ps1"
+    $entry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match 'start/assets/app-.*\.js$' } | Select-Object -First 1
 
-    # если готового пропатченного бандла нет — достаём оригинал из архива и правим
-    if (-not (Test-Path $patchedJs) -and (Test-Path $patcher) -and (Get-Command node -ErrorAction SilentlyContinue)) {
-      $jsEntry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match 'start/assets/app-.*\.js$' } | Select-Object -First 1
-      if ($jsEntry) {
-        New-Item -ItemType Directory -Force -Path (Split-Path $patchedJs) | Out-Null
-        $rawJs = Join-Path $ROOT "build\js\app-original.js"
-        $sr = New-Object System.IO.StreamReader($jsEntry.Open(), (New-Object System.Text.UTF8Encoding($false)))
-        [System.IO.File]::WriteAllText($rawJs, $sr.ReadToEnd(), (New-Object System.Text.UTF8Encoding($false)))
-        $sr.Dispose()
-        & node $patcher $rawJs $patchedJs | Out-Null
-        Remove-Item $rawJs -Force -ErrorAction SilentlyContinue
-      }
-    }
+    if ($null -eq $entry) {
+      Info "! бандл интерфейса не найден — перевод зашитых строк пропущен"
+    } elseif (-not (Test-Path $patcher)) {
+      Info "! нет patch-js.ps1 — зашитые в код надписи останутся английскими"
+    } else {
+      $jsDir = Join-Path $ROOT "build\js"
+      New-Item -ItemType Directory -Force -Path $jsDir | Out-Null
+      $rawJs = Join-Path $jsDir "app-original.js"
+      $patchedJs = Join-Path $jsDir "app.js"
 
-    if (Test-Path $patchedJs) {
-      $entry = $zip.Entries | Where-Object { $_.FullName.Replace('\', '/') -match 'start/assets/app-.*\.js$' } | Select-Object -First 1
-      if ($null -eq $entry) {
-        Info "! бандл интерфейса не найден — перевод зашитых строк пропущен"
-      } else {
+      $sr = New-Object System.IO.StreamReader($entry.Open(), (New-Object System.Text.UTF8Encoding($false)))
+      [System.IO.File]::WriteAllText($rawJs, $sr.ReadToEnd(), (New-Object System.Text.UTF8Encoding($false)))
+      $sr.Dispose()
+
+      & $patcher -In $rawJs -Out $patchedJs -Root $ROOT
+      if ($LASTEXITCODE -eq 0 -and (Test-Path $patchedJs)) {
         $bytes = [System.IO.File]::ReadAllBytes($patchedJs)
         $s = $entry.Open()
         try { $s.SetLength(0); $s.Write($bytes, 0, $bytes.Length) } finally { $s.Dispose() }
-        Ok "зашитые в код надписи переведены ($($entry.FullName.Split('\')[-1]))"
+        Ok "зашитые в код надписи и регламент переведены ($($entry.FullName.Split('\')[-1]))"
+      } else {
+        Info "! патч бандла не применён — зашитые в код надписи останутся английскими"
       }
-    } else {
-      Info "! нет build\js\app.js — зашитые в код надписи останутся английскими"
+      Remove-Item $rawJs -Force -ErrorAction SilentlyContinue
     }
   }
   finally { $zip.Dispose() }

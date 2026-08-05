@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SRC = 'C:\\Users\\slaye\\LMU-RU\\src';
+const SRC = require('../lib/paths').SRC;
 
 // ключ -> новое значение
 const FIX = {

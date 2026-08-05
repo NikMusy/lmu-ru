@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
+const ROOT = require('./lib/paths').ROOT;
 const base = JSON.parse(fs.readFileSync(path.join(ROOT, 'build', 'translation.json'), 'utf8'));
 const over = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'translation.en-override.json'), 'utf8'));
 

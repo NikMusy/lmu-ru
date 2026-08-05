@@ -1,4 +1,4 @@
-# Пересобирает растровые шрифты движка (Core\Shared\SpriteFonts) с кириллицей.
+﻿# Пересобирает растровые шрифты движка (Core\Shared\SpriteFonts) с кириллицей.
 #
 # Используется MakeSpriteFont.exe — штатная утилита DirectX Tool Kit, которую Studio 397
 # оставила в самой игре вместе с BuildAll.bat. Параметры оригинальных файлов восстановлены
@@ -10,7 +10,8 @@
 
 [CmdletBinding()]
 param(
-  [string]$GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Le Mans Ultimate",
+  # Пусто — путь ищется сам: LMU_PATH, библиотеки Steam, обычные места
+  [string]$GamePath = "",
   [string]$OutDir   = "$PSScriptRoot\build\SpriteFonts",
   # Чем заменить недоступный шрифт HUD
   [string]$HudFont  = "Franklin Gothic Medium",
@@ -19,6 +20,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+. (Join-Path $PSScriptRoot "lib\game-path.ps1")
+$GamePath = Find-LmuPath $GamePath
 $MK = Join-Path $GamePath "Core\Shared\SpriteFonts\MakeSpriteFont.exe"
 if (-not (Test-Path $MK)) { throw "не найден MakeSpriteFont.exe: $MK" }
 

@@ -1,4 +1,4 @@
-# Русификатор Le Mans Ultimate — слой движка (HUD, MFD, сообщения гонки)
+﻿# Русификатор Le Mans Ultimate — слой движка (HUD, MFD, сообщения гонки)
 #
 # Ставит два набора файлов, оба лежат в игре обычными файлами и не входят
 # в подписанные .mas-архивы (см. Core\Shared\shared.mft — там перечислены только .mas):
@@ -11,12 +11,15 @@
 
 [CmdletBinding()]
 param(
-  [string]$GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Le Mans Ultimate",
+  # Пусто — путь ищется сам: LMU_PATH, библиотеки Steam, обычные места
+  [string]$GamePath = "",
   [switch]$DeployOnly
 )
 
 $ErrorActionPreference = "Stop"
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $ROOT "lib\game-path.ps1")
+$GamePath = Find-LmuPath $GamePath
 $LANGDIR = Join-Path $GamePath "Support\Languages"
 $SFDIR   = Join-Path $GamePath "Core\Shared\SpriteFonts"
 $BK      = Join-Path $ROOT "backup"
@@ -27,6 +30,7 @@ function Info($m) { Write-Host "  $m" -ForegroundColor Gray }
 
 Write-Host "`n=== Русификатор LMU: HUD и сообщения движка ===`n" -ForegroundColor Cyan
 
+Info "игра: $GamePath"
 if (-not (Test-Path $LANGDIR)) { Fail "не найдено $LANGDIR" }
 if (-not (Test-Path $SFDIR))   { Fail "не найдено $SFDIR" }
 if (Get-Process -Name "Le Mans Ultimate" -ErrorAction SilentlyContinue) { Fail "игра запущена — закройте её и повторите" }

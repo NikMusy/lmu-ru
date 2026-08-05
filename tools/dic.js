@@ -7,8 +7,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const LANGDIR = 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Le Mans Ultimate\\Support\\Languages';
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
+const P = require('../lib/paths');
+const ROOT = P.ROOT;
+// Словари берутся из кэша build/game (tools/extract-game.js), а если его нет — прямо из игры
+const cached = path.join(P.GAMECACHE, 'languages');
+const LANGDIR = fs.existsSync(cached) ? cached : P.languagesDir();
 
 function parseDic(text) {
   const out = new Map();

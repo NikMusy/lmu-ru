@@ -5,8 +5,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const JS = process.argv[2];
-const LOCALE = process.argv[3];
+const P = require('../lib/paths');
+
+const JS = process.argv[2] || path.join(P.GAMECACHE, 'app.js');
+const LOCALE = process.argv[3] || path.join(P.GAMECACHE, 'locales', 'en', 'translation.json');
+if (!fs.existsSync(JS) || !fs.existsSync(LOCALE)) {
+  console.error('нет распакованных файлов игры — сначала: node tools/extract-game.js');
+  process.exit(1);
+}
 
 const src = fs.readFileSync(JS, 'utf8');
 const en = JSON.parse(fs.readFileSync(LOCALE, 'utf8'));
@@ -45,11 +51,9 @@ console.log(`строк в t(): ${found.size}`);
 console.log(`из них есть в локали: ${found.size - missing.length}`);
 console.log(`нет в локали: ${missing.length} (похожих на текст интерфейса: ${real.length})\n`);
 
-const out = path.join(path.dirname(LOCALE), '..', '..', '..', 'missing-keys.json');
-fs.writeFileSync(
-  'C:\\Users\\slaye\\LMU-RU\\build\\missing-keys.json',
-  JSON.stringify(real, null, 2), 'utf8');
+const out = path.join(P.ensureBuild(), 'missing-keys.json');
+fs.writeFileSync(out, JSON.stringify(real, null, 2), 'utf8');
 
 console.log('--- отсутствующие строки (по частоте) ---');
 real.slice(0, 120).forEach(k => console.log(`  [${String(found.get(k)).padStart(2)}] ${k}`));
-console.log(`\nполный список: build\\missing-keys.json (${real.length})`);
+console.log(`\nполный список: ${P.rel(out)} (${real.length})`);

@@ -1,12 +1,15 @@
-# Русификатор Le Mans Ultimate — откат к оригинальному UI.zip
+﻿# Русификатор Le Mans Ultimate — откат к оригинальному UI.zip
 
 [CmdletBinding()]
 param(
-  [string]$GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Le Mans Ultimate"
+  # Пусто — путь ищется сам: LMU_PATH, библиотеки Steam, обычные места
+  [string]$GamePath = ""
 )
 
 $ErrorActionPreference = "Stop"
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $ROOT "lib\game-path.ps1")
+$GamePath = Find-LmuPath $GamePath
 $UIZIP = Join-Path $GamePath "Bin\UI.zip"
 $BACKUP = Join-Path $ROOT "backup\UI.zip.original"
 

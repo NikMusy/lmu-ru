@@ -3,8 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
-const EN_DIR = 'C:\\Users\\slaye\\AppData\\Local\\Temp\\claude\\C--Users-slaye\\3b6eb8e5-a5c8-4306-9aa8-afa9b4416842\\scratchpad\\ui\\start\\locales\\en';
+const P = require('../lib/paths');
+const ROOT = P.ROOT;
+const EN_DIR = path.join(P.GAMECACHE, 'locales', 'en');
 
 const target = process.argv[2] || 'translation';
 

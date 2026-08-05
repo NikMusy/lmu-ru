@@ -4,9 +4,15 @@
 // Такие строки остаются английскими при любом переводе локали — их можно
 // поправить только заменой литерала в самом бандле.
 const fs = require('fs');
+const path = require('path');
+const P = require('../lib/paths');
 
-const JS = process.argv[2];
-const LOCALE = process.argv[3];
+const JS = process.argv[2] || path.join(P.GAMECACHE, 'app.js');
+const LOCALE = process.argv[3] || path.join(P.GAMECACHE, 'locales', 'en', 'translation.json');
+if (!fs.existsSync(JS) || !fs.existsSync(LOCALE)) {
+  console.error('нет распакованных файлов игры — сначала: node tools/extract-game.js');
+  process.exit(1);
+}
 const src = fs.readFileSync(JS, 'utf8');
 const known = new Set(Object.keys(JSON.parse(fs.readFileSync(LOCALE, 'utf8'))));
 
@@ -43,7 +49,7 @@ console.log(`из них есть такой же ключ в локали: ${ro
 rows.slice(0, 80).forEach(r =>
   console.log(`  [${String(r.count).padStart(2)}] ${r.inLocale ? '*' : ' '} ${r.text}   (${[...r.props].join(',')})`));
 
-fs.writeFileSync('C:\\Users\\slaye\\LMU-RU\\build\\hardcoded.json',
-  JSON.stringify(rows.map(r => r.text), null, 2), 'utf8');
-console.log(`\nполный список: build\\hardcoded.json`);
+const outFile = path.join(P.ensureBuild(), 'hardcoded.json');
+fs.writeFileSync(outFile, JSON.stringify(rows.map(r => r.text), null, 2), 'utf8');
+console.log(`\nполный список: ${P.rel(outFile)}`);
 console.log('* — такая же строка есть в файле локали, то есть в других местах она переводится');

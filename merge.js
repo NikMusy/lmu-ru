@@ -2,10 +2,16 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = 'C:\\Users\\slaye\\LMU-RU';
-const EN_DIR = 'C:\\Users\\slaye\\AppData\\Local\\Temp\\claude\\C--Users-slaye\\3b6eb8e5-a5c8-4306-9aa8-afa9b4416842\\scratchpad\\ui\\start\\locales\\en';
+const P = require('./lib/paths');
+const ROOT = P.ROOT;
+const EN_DIR = path.join(P.GAMECACHE, 'locales', 'en');
 
 const target = process.argv[2] || 'translation';
+
+if (!fs.existsSync(path.join(EN_DIR, target + '.json'))) {
+  console.error(`нет ${P.rel(path.join(EN_DIR, target + '.json'))} — сначала: node tools/extract-game.js`);
+  process.exit(1);
+}
 
 const parts = fs.readdirSync(path.join(ROOT, 'src'))
   .filter(f => f.startsWith(target + '.part') && f.endsWith('.json'))
@@ -36,11 +42,13 @@ console.log(`ЛИШНИХ:     ${extra.length}`);
 if (missing.length) console.log('--- пропущено ---\n' + missing.slice(0, 40).map(k => '  ' + k).join('\n'));
 if (extra.length) console.log('--- лишние ---\n' + extra.slice(0, 40).map(k => '  ' + k).join('\n'));
 
-// Проверка: плейсхолдеры {xxx} должны совпадать с оригиналом
+// Проверка: подстановки {xxx} должны совпадать с оригиналом.
+// Тела веток ICU при этом подстановками не считаются — см. lib/icu.js.
+const ph = require('./lib/icu').icuArgs;
+
 let phWarn = 0;
 for (const k of enKeys) {
   if (!merged.has(k)) continue;
-  const ph = s => (String(s).match(/\{\s*([A-Za-z_][A-Za-z0-9_]*)/g) || []).map(x => x.replace(/[{\s]/g, '')).sort();
   const a = ph(en[k]), b = ph(merged.get(k));
   if (a.join(',') !== b.join(',')) {
     if (phWarn < 15) console.warn(`  ! ПЛЕЙСХОЛДЕР [${k}]\n      en: ${a.join(',')}\n      ru: ${b.join(',')}`);
