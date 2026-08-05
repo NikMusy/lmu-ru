@@ -40,8 +40,8 @@ exit /b 0
 echo.
 echo   Установка прервана. Текст ошибки выше.
 echo.
-echo   Если игра стоит не на диске C, откройте install.ps1 в блокноте
-echo   и поправьте путь в строке GamePath — либо запустите вручную:
+echo   Папку игры скрипт ищет сам — по библиотекам Steam. Если не нашёл,
+echo   укажите путь вручную:
 echo     powershell -ExecutionPolicy Bypass -File install.ps1 -GamePath "D:\...\Le Mans Ultimate"
 echo.
 pause
