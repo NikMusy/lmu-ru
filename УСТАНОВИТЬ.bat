@@ -3,6 +3,11 @@ chcp 65001 >nul
 cd /d "%~dp0"
 title Русификатор Le Mans Ultimate
 
+rem Если запустить .bat прямо из архива, WinRAR/проводник распакуют во временную
+rem папку только его самого, без скриптов рядом.
+if not exist "%~dp0install.ps1" goto :unpacked
+if not exist "%~dp0install-hud.ps1" goto :unpacked
+
 echo.
 echo   ================================================
 echo    Русификатор Le Mans Ultimate
@@ -19,14 +24,15 @@ echo   Второй шаг пересобирает шрифты игры и з�
 echo.
 pause
 
+rem Код ошибки PowerShell бывает отрицательным, а "if errorlevel 1" его не ловит
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0install.ps1"
-if errorlevel 1 goto :error
+if %errorlevel% neq 0 goto :error
 
 echo.
 echo   Шаг 2 из 2: шрифты движка. Это долго, не закрывайте окно.
 echo.
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0install-hud.ps1"
-if errorlevel 1 goto :error
+if %errorlevel% neq 0 goto :error
 
 echo.
 echo   ================================================
@@ -43,6 +49,16 @@ echo.
 echo   Папку игры скрипт ищет сам — по библиотекам Steam. Если не нашёл,
 echo   укажите путь вручную:
 echo     powershell -ExecutionPolicy Bypass -File install.ps1 -GamePath "D:\...\Le Mans Ultimate"
+echo.
+pause
+exit /b 1
+
+:unpacked
+echo.
+echo   Похоже, установщик запущен прямо из архива — рядом нет остальных файлов.
+echo.
+echo   Распакуйте архив целиком в любую папку (правый клик - "Извлечь всё"
+echo   или "Извлечь в LMU-RU-...") и запустите УСТАНОВИТЬ.bat оттуда.
 echo.
 pause
 exit /b 1
