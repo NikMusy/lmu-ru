@@ -55,9 +55,17 @@ if (-not (Test-Path $sfBuild)) { Fail "нет собранных шрифтов 
 New-Item -ItemType Directory -Force -Path $BK | Out-Null
 
 $dicBk = Join-Path $BK "english.dic.original"
+$dicGame = Join-Path $LANGDIR "english.dic"
+# В оригинальном english.dic кириллицы нет. Если в игре оригинал и он отличается
+# от бэкапа — игра обновилась, и бэкап прошлой версии надо заменить.
+$dicIsOriginal = -not ((Get-Content $dicGame -Raw -Encoding UTF8) -match '[Ѐ-ӿ]')
 if (-not (Test-Path $dicBk)) {
-  Copy-Item (Join-Path $LANGDIR "english.dic") $dicBk -Force
+  if (-not $dicIsOriginal) { Fail "в игре уже русский english.dic, а бэкапа нет — проверьте целостность файлов в Steam" }
+  Copy-Item $dicGame $dicBk -Force
   Ok "бэкап: backup\english.dic.original"
+} elseif ($dicIsOriginal -and (Get-FileHash $dicGame).Hash -ne (Get-FileHash $dicBk).Hash) {
+  Copy-Item $dicGame $dicBk -Force
+  Ok "игра обновилась — бэкап словаря обновлён"
 } else { Ok "бэкап словаря уже есть" }
 
 $sfBk = Join-Path $BK "SpriteFonts.original"

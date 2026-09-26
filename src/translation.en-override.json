@@ -10,11 +10,7 @@
   "{ numInvites, plural, one {# invite} other {# invites} }": "{ numInvites, plural, one {# приглашение} other {# приглашений} }",
   "{ numLiveries, plural, one {# livery} other {# liveries} }": "{ numLiveries, plural, one {# ливрея} other {# ливрей} }",
   "+{ gapLaps, plural, one {# Lap} other {# Laps} }": "+{ gapLaps, plural, one {# круг} other {# кр.} }",
-
-  "{count, plural, zero {# Available Joker cards} one {# Available Joker card} two {# Available Joker cards} few {# Available Joker cards} many {# Available Joker cards} other {# Available Joker cards}}:_one": "{count, plural, one {доступен # джокер} other {доступно джокеров: #}}:",
-  "{count, plural, zero {# Available Joker cards} one {# Available Joker card} two {# Available Joker cards} few {# Available Joker cards} many {# Available Joker cards} other {# Available Joker cards}}:_other": "{count, plural, one {доступен # джокер} other {доступно джокеров: #}}:",
-  "{count, plural, zero {# Jokers available} one {# Joker available} two {# Jokers available} few {# Jokers available} many {# Jokers available} other {# Jokers available}}_one": "{count, plural, one {доступен # джокер} other {доступно джокеров: #}}",
-  "{count, plural, zero {# Jokers available} one {# Joker available} two {# Jokers available} few {# Jokers available} many {# Jokers available} other {# Jokers available}}_other": "{count, plural, one {доступен # джокер} other {доступно джокеров: #}}",
-  "New joker in {count, plural, zero {# races} one {# race} two {# races} few {# races} many {# races} other {# races}}_one": "Новый джокер через {count, plural, one {# гонку} other {# гонок}}",
-  "New joker in {count, plural, zero {# races} one {# race} two {# races} few {# races} many {# races} other {# races}}_other": "Новый джокер через {count, plural, one {# гонку} other {# гонок}}"
+  "{numJokers, plural, zero {# Available Joker cards} one {# Available Joker card} two {# Available Joker cards} few {# Available Joker cards} many {# Available Joker cards} other {# Available Joker cards}}:": "{numJokers, plural, one {доступен # джокер} other {доступно джокеров: #}}:",
+  "{numJokers, plural, zero {# Jokers available} one {# Joker available} two {# Jokers available} few {# Jokers available} many {# Jokers available} other {# Jokers available}}": "{numJokers, plural, one {доступен # джокер} other {доступно джокеров: #}}",
+  "New joker in {numRaces, plural, zero {# races} one {# race} two {# races} few {# races} many {# races} other {# races}}": "Новый джокер через {numRaces, plural, one {# гонку} other {# гонок}}"
 }

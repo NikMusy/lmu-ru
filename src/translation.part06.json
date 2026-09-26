@@ -1,11 +1,4 @@
 {
-  "{count, plural, zero {# Available Joker cards} one {# Available Joker card} two {# Available Joker cards} few {# Available Joker cards} many {# Available Joker cards} other {# Available Joker cards}}:_one": "{count, plural, zero {доступно джокеров: #} one {доступен # джокер} two {доступно # джокера} few {доступно # джокера} many {доступно # джокеров} other {доступно # джокера}}:",
-  "{count, plural, zero {# Available Joker cards} one {# Available Joker card} two {# Available Joker cards} few {# Available Joker cards} many {# Available Joker cards} other {# Available Joker cards}}:_other": "{count, plural, zero {доступно джокеров: #} one {доступен # джокер} two {доступно # джокера} few {доступно # джокера} many {доступно # джокеров} other {доступно # джокера}}:",
-  "{count, plural, zero {# Jokers available} one {# Joker available} two {# Jokers available} few {# Jokers available} many {# Jokers available} other {# Jokers available}}_one": "{count, plural, zero {джокеров нет} one {доступен # джокер} two {доступно # джокера} few {доступно # джокера} many {доступно # джокеров} other {доступно # джокера}}",
-  "{count, plural, zero {# Jokers available} one {# Joker available} two {# Jokers available} few {# Jokers available} many {# Jokers available} other {# Jokers available}}_other": "{count, plural, zero {джокеров нет} one {доступен # джокер} two {доступно # джокера} few {доступно # джокера} many {доступно # джокеров} other {доступно # джокера}}",
-  "New joker in {count, plural, zero {# races} one {# race} two {# races} few {# races} many {# races} other {# races}}_one": "Новый джокер через {count, plural, zero {# гонок} one {# гонку} two {# гонки} few {# гонки} many {# гонок} other {# гонки}}",
-  "New joker in {count, plural, zero {# races} one {# race} two {# races} few {# races} many {# races} other {# races}}_other": "Новый джокер через {count, plural, zero {# гонок} one {# гонку} two {# гонки} few {# гонки} many {# гонок} other {# гонки}}",
-
   "Joker": "Джокер",
   "Jokers": "Джокеры",
   "Jokers Disabled": "Джокеры отключены",

@@ -96,11 +96,34 @@ if (-not $DeployOnly) {
   }
 
   # Бэкап оригинала. Копировать можно и при запущенной игре — файл открыт только на чтение.
+  #
+  # После обновления игры Steam кладёт новый оригинальный UI.zip, а в backup остаётся
+  # архив прошлой версии. Собирать из него нельзя — поставится старый интерфейс.
+  # Поэтому смотрим, наш ли сейчас UI.zip в игре: в оригинале в локали en нет кириллицы.
+  # Если там оригинал и он отличается от бэкапа — бэкап устарел, обновляем.
+  function Test-Russified([string]$path) {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $z = [System.IO.Compression.ZipFile]::OpenRead($path)
+    try {
+      $e = $z.Entries | Where-Object { $_.FullName.Replace('\', '/') -eq 'start/locales/en/translation.json' } | Select-Object -First 1
+      if (-not $e) { return $false }
+      $r = New-Object System.IO.StreamReader($e.Open(), [System.Text.Encoding]::UTF8)
+      try { return $r.ReadToEnd() -match '[Ѐ-ӿ]' } finally { $r.Dispose() }
+    } finally { $z.Dispose() }
+  }
+
   New-Item -ItemType Directory -Force -Path (Join-Path $ROOT "backup") | Out-Null
+  $gameIsOriginal = -not (Test-Russified $UIZIP)
   if (-not (Test-Path $BACKUP)) {
+    if (-not $gameIsOriginal) { Fail "в игре уже стоит русифицированный UI.zip, а бэкапа нет.`n  Проверьте целостность файлов в Steam и запустите установку заново." }
     Info "создаю резервную копию оригинального UI.zip (~1 ГБ)..."
     Copy-Item $UIZIP $BACKUP -Force
     Ok "бэкап: backup\UI.zip.original"
+  } elseif ($gameIsOriginal -and ((Get-Item $UIZIP).Length -ne (Get-Item $BACKUP).Length -or
+            (Get-FileHash $UIZIP -Algorithm MD5).Hash -ne (Get-FileHash $BACKUP -Algorithm MD5).Hash)) {
+    Info "игра обновилась — бэкап UI.zip устарел, обновляю (~1 ГБ)..."
+    Copy-Item $UIZIP $BACKUP -Force
+    Ok "бэкап обновлён: backup\UI.zip.original"
   } else {
     Ok "бэкап уже есть"
   }
